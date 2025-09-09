@@ -1,0 +1,14 @@
+/* Hover effect for light/dark mode */
+.hover-bg:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* light mode default */
+  transition: 0.2s;
+}
+
+:host-context(.bg-dark) .hover-bg:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* dark mode hover */
+}
+
+/* Optional: smooth transition for color changes */
+.nav-link {
+  transition: background-color 0.2s, color 0.2s;
+}

@@ -1,0 +1,38 @@
+<div class="auth-wrapper">
+  <div class="auth-left"></div>
+
+  <div class="register-box">
+    <div class="text-center mb-3">
+      <h3 class="fw-bold mt-5">Sign Up</h3>
+      <small>Create your account to get started</small>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-4">
+      <div class="form-group mb-3">
+        <label>Full Name <span class="text-danger">*</span></label>
+        <input type="text" formControlName="name" class="form-control form-control-sm" placeholder="Enter full name" />
+      </div>
+
+      <div class="form-group mb-3">
+        <label>Email <span class="text-danger">*</span></label>
+        <input type="email" formControlName="email" class="form-control form-control-sm" placeholder="Enter email" />
+      </div>
+
+      <div class="form-group mb-3">
+        <label>Password <span class="text-danger">*</span></label>
+        <input type="password" formControlName="password" class="form-control form-control-sm" placeholder="Enter password" />
+      </div>
+
+      <!-- ✅ Chhota button right aligned -->
+      <div class="text-end mt-2">
+        <button class="btn btn-primary btn-xs" type="submit">
+          <i class="bi bi-person-plus-fill me-1"></i> Sign Up
+        </button>
+      </div>
+
+      <div class="text-center mt-3">
+        <a routerLink="/login">Already have an account? Login</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,106 @@
+<!-- Heading + Save/Cancel Buttons -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0">Add New Employee</h4>
+  <div class="d-flex gap-2">
+    <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">
+      <i class="bi bi-x-circle me-1"></i> Cancel
+    </button>
+    <button type="submit" class="btn btn-primary btn-sm" (click)="saveTask()">
+      <i class="bi bi-save me-1"></i> Save
+    </button>
+  </div>
+</div>
+<!-- Card Container -->
+<div class="card shadow-sm p-4">
+  <form [formGroup]="taskForm">
+    <div class="row">
+
+      <!-- Left Side: Form Fields -->
+      <div class="col-md-9">
+        <div class="row">
+          <!-- Employee No -->
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Employee No <span class="text-danger">*</span></label>
+            <input type="text" formControlName="employeeNumber" class="form-control form-control-sm"
+              placeholder="Enter Employee Number" />
+            <div class="text-danger mt-1" *ngIf="formSubmitted && taskForm.get('employeeNumber')?.invalid">
+              Employee Number is required.
+            </div>
+          </div>
+
+          <!-- First Name -->
+          <div class="col-md-4 mb-3">
+            <label class="form-label">First Name <span class="text-danger">*</span></label>
+            <input type="text" formControlName="firstName" class="form-control form-control-sm"
+              placeholder="Enter First Name" />
+            <div class="text-danger mt-1" *ngIf="formSubmitted && taskForm.get('firstName')?.invalid">
+              First Name is required.
+            </div>
+          </div>
+
+          <!-- Last Name -->
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Last Name</label>
+            <input type="text" formControlName="lastName" class="form-control form-control-sm"
+              placeholder="Enter Last Name" />
+          </div>
+
+          <!-- Email -->
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Email <span class="text-danger">*</span></label>
+            <input type="email" formControlName="email" class="form-control form-control-sm"
+              placeholder="example@email.com" />
+            <div class="text-danger mt-1" *ngIf="formSubmitted && taskForm.get('email')?.invalid">
+              <span *ngIf="taskForm.get('email')?.errors?.['required']">Email is required.</span>
+              <span *ngIf="taskForm.get('email')?.errors?.['email']">Enter a valid email address.</span>
+            </div>
+          </div>
+
+          <!-- Designation -->
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Designation <span class="text-danger">*</span></label>
+            <input type="text" formControlName="designation" class="form-control form-control-sm"
+              placeholder="Enter Designation" />
+          </div>
+
+          <!-- Status -->
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Status <span class="text-danger">*</span></label>
+            <select formControlName="status" class="form-select form-select-sm">
+              <option value="">Select Status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+
+          <!-- Address -->
+          <div class="col-md-12 mb-3">
+            <label class="form-label">Address <span class="text-danger">*</span></label>
+            <input type="text" formControlName="address" class="form-control form-control-sm"
+              placeholder="Enter Address" />
+            <div class="text-danger mt-1" *ngIf="formSubmitted && taskForm.get('address')?.invalid">
+              Address is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Profile Image -->
+      <div class="col-md-3 mb-3 text-center">
+        <img [src]="profileImage || defaultImage" class="img-thumbnail mb-2" alt="Profile"
+          style="width: 100px; height: 100px; object-fit: cover;" />
+        <br />
+        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="fileInput.click()">Select Image</button>
+        <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/png, image/jpeg" hidden />
+      </div>
+
+      <!-- Description: Full width below -->
+      <div class="col-12 mb-3">
+        <label class="form-label">Description</label>
+        <textarea formControlName="description" class="form-control form-control-sm" rows="4"
+          placeholder="Enter Description (optional)"></textarea>
+      </div>
+
+    </div>
+  </form>
+</div>

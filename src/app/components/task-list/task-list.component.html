@@ -1,0 +1,148 @@
+<!-- Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div *ngIf="toastMessage" class="toast show" role="alert">
+    <div class="toast-header">
+      <i class="bi me-2" 
+         [ngClass]="{
+           'bi-check-circle-fill text-success': toastType === 'success',
+           'bi-exclamation-triangle-fill text-danger': toastType === 'error'
+         }"></i>
+      <strong class="me-auto">
+        {{ toastType === 'success' ? 'Success' : 'Error' }}
+      </strong>
+      <button type="button" class="btn-close" (click)="toastMessage = ''"></button>
+    </div>
+    <div class="toast-body">
+      {{ toastMessage }}
+    </div>
+  </div>
+</div>
+
+<!-- Top Header -->
+<div class="card shadow-sm px-4 py-3" style="margin-top: 0;">
+  <div class="d-flex justify-content-between align-items-center">
+    <h4 class="mb-0">Employees</h4>
+  
+    <div class="d-flex align-items-center gap-2">
+      <!-- 🌙 Dark/Light Mode Button
+      <button class="btn btn-secondary btn-sm" (click)="toggleTheme()">
+        <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
+        {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
+      </button> -->
+
+      <!-- Add Task -->
+      <button class="btn btn-primary btn-sm" (click)="addTask()">
+        <i class="bi bi-plus-circle me-1"></i> + Add New
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Search, Refresh, Export -->
+<div class="card shadow-sm rounded p-3 mt-3">
+  <div class="d-flex justify-content-end align-items-center gap-2 mb-3">
+    <button class="btn btn-outline-primary btn-sm" (click)="refreshTasks()">
+      <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+    </button>
+
+    <input type="text"
+           [(ngModel)]="searchKeyword"
+           (input)="onSearch()"
+           placeholder="Search keyword..."
+           class="form-control form-control-sm"
+           style="width: 200px;" />
+
+    <button class="btn btn-success btn-sm" (click)="exportTasks()">
+      <i class="bi bi-download me-1"></i> Export
+    </button>
+  </div>
+
+  <!-- 📋 Table -->
+  <table class="table custom-table">
+    <thead class="custom-table-head">
+      <tr>
+        <th><input type="checkbox" [(ngModel)]="selectAll" (change)="onSelectAllChange()" /></th>
+        <th>Employee No</th>
+        <th>First Name</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Status</th>
+        <th class="text-center">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of filteredTasks(); let i = index">
+        <td><input type="checkbox" [(ngModel)]="task.selected" (change)="onTaskSelectChange()" /></td>
+        <td>{{ task.employeeNumber }}</td>
+        <td>{{ task.firstName }}</td>
+        <td>{{ task.email }}</td>
+        <td>{{ task.address }}</td>
+        <td>
+          <span class="badge"
+                [ngClass]="{
+                  'bg-success': task.status === 'Active',
+                  'bg-secondary': task.status === 'Inactive'
+                }">
+            {{ task.status }}
+          </span>
+        </td>
+        <td class="text-center">
+          <div class="d-flex justify-content-center gap-0">
+            <button class="icon-btn" (click)="viewTask(task.id)">👁️</button>
+            <button class="icon-btn" (click)="editTask(task.id)">✏️</button>
+            <button class="icon-btn" (click)="deleteTask(task.id)">
+              <i class="bi bi-trash3-fill text-danger"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- No data -->
+  <div *ngIf="filteredTaskList.length === 0" class="text-center text-muted py-3">
+    No tasks found.
+  </div>
+
+  <!-- Pagination -->
+  <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+    <!-- Left: Showing entries info -->
+    <div class="text-muted mb-2 mb-md-0">
+      Showing {{ first + 1 }} to {{ Math.min(first + rows, filteredTaskList.length) }} of {{ filteredTaskList.length }} Entries
+    </div>
+    
+    <!-- Right: Pagination controls -->
+    <div class="d-flex align-items-center gap-2">
+      <!-- Entries per page dropdown -->
+      <div class="d-flex align-items-center">
+        <span class="text-muted me-2">Show</span>
+        <select class="form-select form-select-sm" style="width: 70px; min-width: 60px;" [(ngModel)]="rows" (change)="onRowsChange()">
+          <option [value]="3">3</option>
+          <option [value]="10">10</option>
+          <option [value]="25">25</option>
+          <option [value]="50">50</option>
+        </select>
+        <span class="text-muted ms-2">entries</span>
+      </div>
+      
+      <!-- Navigation buttons -->
+      <ul class="pagination pagination-sm mb-0 ms-2">
+        <li class="page-item" [class.disabled]="first === 0">
+          <button class="page-link" (click)="goToFirstPage()" [disabled]="first === 0">&laquo;</button>
+        </li>
+        <li class="page-item" [class.disabled]="first === 0">
+          <button class="page-link" (click)="goToPreviousPage()" [disabled]="first === 0">&lt;</button>
+        </li>
+        <li class="page-item active">
+          <span class="page-link">{{ Math.floor(first / rows) + 1 }}</span>
+        </li>
+        <li class="page-item" [class.disabled]="first + rows >= filteredTaskList.length">
+          <button class="page-link" (click)="goToNextPage()" [disabled]="first + rows >= filteredTaskList.length">&gt;</button>
+        </li>
+        <li class="page-item" [class.disabled]="first + rows >= filteredTaskList.length">
+          <button class="page-link" (click)="goToLastPage()" [disabled]="first + rows >= filteredTaskList.length">&raquo;</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

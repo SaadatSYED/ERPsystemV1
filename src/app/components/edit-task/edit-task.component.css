@@ -1,0 +1,34 @@
+/* ✅ Small button version (like Add New, Logout) */
+.btn-sm {
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+/* ✅ Margin between icon and text */
+.me-1 {
+  margin-right: 0.25rem;
+}
+
+/* ✅ Keep existing green and gray button colors */
+.btn-primary {
+  background-color: #28a745; /* Green */
+  color: white;
+  border: none;
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* Gray */
+  color: white;
+  border: none;
+}
+
+/* Optional: Hover effects */
+.btn-primary:hover {
+  background-color: #218838;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}

@@ -1,0 +1,41 @@
+<!-- sign-up.component.html -->
+<div class="auth-wrapper">
+  <div class="auth-left">
+    <img src="syd.jpg" alt="Sign Up Image" />
+  </div>
+
+  <div class="auth-right">
+    <div class="register-box">
+      <div class="text-center mb-3">
+        <img src="assets/images/n.png"  class="logo-img mb-2" alt="Logo" />
+        <h3 class="fw-bold mt-2">Sign Up</h3>
+        <small>Create your account to get started</small>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-group mb-3">
+          <label>Full Name <span class="text-danger">*</span></label>
+          <input type="text" formControlName="name" class="form-control" placeholder="Enter full name" />
+        </div>
+
+        <div class="form-group mb-3">
+          <label>Email <span class="text-danger">*</span></label>
+          <input type="email" formControlName="email" class="form-control" placeholder="Enter email address" />
+        </div>
+
+        <div class="form-group mb-4">
+          <label>Password <span class="text-danger">*</span></label>
+          <input type="password" formControlName="password" class="form-control" placeholder="Enter password" />
+        </div>
+
+        <button class="btn btn-primary w-100" type="submit">
+          <i class="bi bi-person-plus-fill me-1"></i> Sign Up
+        </button>
+
+        <div class="text-center mt-3">
+          <a routerLink="/login">Already have an account? Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

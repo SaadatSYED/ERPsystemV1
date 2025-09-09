@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-4 py-2 justify-content-between shadow-sm border-bottom">
+  <!-- 🔹 Left: ERP Logo -->
+  <a class="navbar-brand d-flex align-items-center" routerLink="/">
+    <img src="assets/images/er.jpg" alt="ERP Logo" width="40" height="40" class="me-2" />
+  </a>
+
+  <!-- 🔹 Right: Actions -->
+  <div class="d-flex align-items-center gap-3 ms-auto">
+    <!-- 🔔 Notification Bell -->
+    <span class="position-relative">
+      <i class="bi bi-bell-fill fs-5 text-secondary" style="cursor:pointer;"></i>
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            style="font-size: 0.6rem;">!</span>
+    </span>
+
+    <!-- 🌐 Language -->
+    <span class="d-flex align-items-center" style="font-size: 1.1rem;">
+      <i class="bi bi-globe2 me-1 text-primary"></i>
+      <span class="fw-semibold">EN</span>
+    </span>
+
+    <!-- 👤 User Greeting -->
+    <span class="fw-bold">Hi, Saadat</span>
+
+    <!-- 🖼️ Profile Dropdown -->
+  <div class="dropdown" style="position: relative;">
+  <img src="assets/images/saadat.png" alt="Profile" width="36" height="36"
+       class="rounded-circle border border-2 border-primary shadow-sm me-2 dropdown-toggle"
+       style="cursor:pointer;" (click)="toggleDropdown()" />
+
+  <div *ngIf="showDropdown" class="dropdown-card">
+    <!-- Settings -->
+    <button class="btn btn-primary btn-card" routerLink="/setting" (click)="toggleDropdown()">
+      <i class="bi bi-gear me-1"></i> Settings
+    </button>
+
+    <!-- Dark/Light Mode -->
+    <button class="btn btn-secondary btn-card" (click)="toggleTheme()">
+      <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
+      {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
+    </button>
+
+    <hr class="my-1">
+
+    <!-- Logout -->
+    <button class="btn btn-danger btn-card" (click)="logout()">
+      <i class="bi bi-box-arrow-right me-1"></i> Logout
+    </button>
+  </div>
+</div>
+
+
+  </div>
+</nav>
+  

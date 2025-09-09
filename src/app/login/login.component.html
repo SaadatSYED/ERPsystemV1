@@ -1,0 +1,36 @@
+<div class="auth-wrapper justify-content-center align-items-center">
+  <div class="register-box">
+    <div class="text-center mb-3">
+      <h3 class="fw-bold mt-3">🔐 Login</h3>
+      <small>Access your account</small>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-4">
+      <div class="form-group mb-3">
+        <label>Email <span class="text-danger">*</span></label>
+        <input
+          type="email"
+          formControlName="email"
+          class="form-control form-control-sm"
+          placeholder="Enter email"
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <label>Password <span class="text-danger">*</span></label>
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control form-control-sm"
+          placeholder="Enter password"
+        />
+      </div>
+
+      <div class="text-end mt-2">
+        <button class="btn btn-primary btn-xs" type="submit">
+          <i class="bi bi-box-arrow-in-right me-1"></i> Login
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

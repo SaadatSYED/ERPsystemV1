@@ -1,0 +1,27 @@
+/* 🔹 Card-style dropdown */
+.dropdown-card {
+  position: absolute;
+  top: 110%;
+  left: 0;                 /* left side open */
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;                /* buttons ke beech gap */
+  min-width: 140px;        /* chhota card width */
+  z-index: 1000;
+}
+
+/* 🔹 Compact buttons inside card */
+.btn-card {
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}

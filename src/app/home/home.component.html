@@ -1,0 +1,27 @@
+<div class="search-box">
+  <!-- Location -->
+  <mat-form-field appearance="outline">
+    <mat-label>Location</mat-label>
+    <input matInput placeholder="Where are you going?" [(ngModel)]="selectedLocation">
+  </mat-form-field>
+
+  <!-- Date Range -->
+  <mat-form-field appearance="outline">
+    <mat-label>Check-in - Check-out</mat-label>
+    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+      <input matStartDate formControlName="start" placeholder="Check-in">
+      <input matEndDate formControlName="end" placeholder="Check-out">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <!-- Guests -->
+  <mat-form-field appearance="outline">
+    <mat-label>Guests</mat-label>
+    <input matInput type="number" min="1" [(ngModel)]="guests">
+  </mat-form-field>
+
+  <!-- Search Button -->
+  <button mat-raised-button color="primary" (click)="search()">Search</button>
+</div>

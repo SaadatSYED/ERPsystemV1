@@ -1,0 +1,87 @@
+<form [formGroup]="taskForm" (ngSubmit)="updateTask()" class="erp-container">
+  
+  <!-- 🔷 Card 1: Header + Buttons -->
+  <div >
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <h4 class="mb-0"> Edit Employee </h4>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">
+          <i class="bi bi-x-circle me-1"></i> Cancel
+        </button>
+        <button *ngIf="!isViewMode" type="submit" class="btn btn-primary btn-sm" >
+          <i class="bi bi-arrow-repeat me-1"></i> Update
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔷 Card 2: Form Fields -->
+  <div class="card shadow-sm rounded p-4 mt-3">
+    <div class="row g-4">
+     <!-- Employee No -->
+<div class="col-md-4">
+  <label class="form-label">Employee No <span class="text-danger">*</span></label>
+  <input type="text" formControlName="employeeNumber" class="form-control" />
+  <div class="text-danger" *ngIf="formSubmitted && taskForm.get('employeeNumber')?.invalid">
+    Employee Number is required.
+  </div>
+</div>
+
+<!-- First Name -->
+<div class="col-md-4">
+  <label class="form-label">First Name <span class="text-danger">*</span></label>
+  <input type="text" formControlName="firstName" class="form-control" />
+  <div class="text-danger" *ngIf="formSubmitted && taskForm.get('firstName')?.invalid">
+    First Name is required.
+  </div>
+</div>
+
+      <!-- Last Name -->
+      <div class="col-md-4">
+        <label class="form-label">Last Name <span class="required">*</span></label>
+        <input type="text" formControlName="lastName" class="form-control" placeholder="Enter Last Name" />
+      </div> 
+     <!-- Email -->
+<div class="col-md-4">
+  <label class="form-label">Email <span class="text-danger">*</span></label>
+  <input type="email" formControlName="email" class="form-control" />
+  <div class="text-danger" *ngIf="formSubmitted && taskForm.get('email')?.errors?.['required']">
+    Email is required.
+  </div>
+  <div class="text-danger" *ngIf="formSubmitted && taskForm.get('email')?.errors?.['email']">
+    Please enter a valid email.
+  </div>
+</div>
+      <!-- Designation -->
+      <div class="col-md-4">
+        <label class="form-label">Designation <span class="required">*</span></label>
+        <input type="text" formControlName="designation" class="form-control" placeholder="Enter Designation" />
+      </div>
+      <!-- Status -->
+      <div class="col-md-4">
+        <label class="form-label">Status <span class="required">*</span></label>
+        <select formControlName="status" class="form-control">
+          <option value="">Select Status</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+       <!-- Address -->
+      <div class="col-md-4">
+        <label class="form-label">Address <span class="required">*</span></label>
+        <input type="text" formControlName="address" class="form-control" placeholder="Enter Address" />
+      </div>
+
+      <!-- Description -->
+    <div class="col-md-12 mt-3">
+      <label class="form-label">Description</label>
+         <textarea
+           formControlName="description"
+             class="form-control"
+               rows="5"
+             placeholder="Enter description (optional)">
+  </textarea>
+</div>
+    </div>
+  </div>
+</form>

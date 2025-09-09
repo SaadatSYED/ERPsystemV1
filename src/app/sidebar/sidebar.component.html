@@ -1,0 +1,24 @@
+<div class="d-flex flex-column border-end shadow-sm"
+     [ngClass]="isDarkMode ? 'bg-dark text-light' : 'bg-white text-dark'"
+     style="width: 240px; height: 100vh;">
+  
+  <!-- Sidebar Header -->
+  <div class="border-bottom text-center py-3"
+       [ngClass]="isDarkMode ? 'border-secondary' : 'border-bottom'">
+    <h5 class="fw-bold mb-0" [ngClass]="isDarkMode ? 'text-light' : 'text-primary'">
+      <i class="bi bi-speedometer2 me-2"></i> Dashboard
+    </h5>
+  </div>
+
+  <!-- Navigation Menu -->
+  <ul class="nav flex-column px-3 py-4">
+    <li class="nav-item mb-2" *ngFor="let item of menuItems">
+      <a [routerLink]="item.link" routerLinkActive="active"
+         class="nav-link d-flex align-items-center rounded px-2 py-2 hover-bg"
+         [ngClass]="isDarkMode ? 'text-light' : 'text-dark'">
+        <i class="bi {{item.icon}} me-2 fs-5"></i>
+        <span>{{ item.label }}</span>
+      </a>
+    </li>
+  </ul>
+</div>
