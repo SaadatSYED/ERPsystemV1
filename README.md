@@ -22,10 +22,3 @@ This project provides a complete solution for managing employees with modern ERP
 - **Database:** SQL Server  
 - **Tools:** Entity Framework Core, JWT Authentication  
 
----
-
-## ⚙️ Installation & Setup
-
-### 1️⃣ Clone the repository
-```bash
-git clone https://github.com/YourUsername/ERP-Employee-Management.git
