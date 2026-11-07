@@ -249,7 +249,7 @@ a.active.nav-link {
 
 /* ✅ Page Background & Font */
 body, .employee-container {
-  padding: 30px;
+  padding: 0;
   background: var(--bg-secondary);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
