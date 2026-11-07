@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -7,17 +7,16 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './setting.component.html',
-  styleUrls: ['./setting.component.css'] // ✅ this must be correct
+  styleUrls: ['./setting.component.css']
 })
 export class SettingComponent implements OnInit {
-save() {
-throw new Error('Method not implemented.');
-}
-
   darkMode: boolean = false;
   language: string = 'en';
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     const savedSettings = localStorage.getItem('user-settings');
     if (savedSettings) {
       const settings = JSON.parse(savedSettings);
@@ -27,11 +26,11 @@ throw new Error('Method not implemented.');
   }
 
   saveSettings(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     const settings = {
       darkMode: this.darkMode,
       language: this.language
     };
-
     localStorage.setItem('user-settings', JSON.stringify(settings));
     alert('✅ Settings saved successfully!');
   }

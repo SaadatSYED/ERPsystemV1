@@ -1,0 +1,16 @@
+# Angular cache
+.angular/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment files
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/

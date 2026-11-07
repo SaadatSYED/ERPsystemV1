@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -10,8 +11,10 @@ export class TaskService {
   private storageKey = 'tasks';
   private tasksChanged = new BehaviorSubject<any[]>([]); // 🔁 Real-time update
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   /** 📡 Observable for Components */
   getTasksChanged() {
@@ -20,6 +23,7 @@ export class TaskService {
 
   /** 🟡 Get tasks from localStorage */
   getTasks(): any[] {
+    if (!isPlatformBrowser(this.platformId)) return [];
     const tasks = localStorage.getItem(this.storageKey);
     return tasks ? JSON.parse(tasks) : [];
   }

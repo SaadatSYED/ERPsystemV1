@@ -58,7 +58,9 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "ssr": false,
+              "prerender": false
             }
           },
           "defaultConfiguration": "production"
@@ -70,7 +72,8 @@
               "buildTarget": "task-manager:build:production"
             },
             "development": {
-              "buildTarget": "task-manager:build:development"
+              "buildTarget": "task-manager:build:development",
+              "hmr": false
             }
           },
           "defaultConfiguration": "development"

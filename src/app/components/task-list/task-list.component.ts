@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
 import { PaginatorModule } from 'primeng/paginator';
@@ -22,14 +22,20 @@ export class TaskListComponent implements OnInit {
   first: number = 0;
   rows: number = 3;
 
-  constructor(private taskService: TaskService, private router: Router) {}
+  constructor(
+    private taskService: TaskService,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   ngOnInit() {
-    const currentState = window.history.state;
-    if (currentState?.message) {
-      this.toastMessage = currentState.message;
-      this.toastType = 'success';
-      setTimeout(() => (this.toastMessage = ''), 2000);
+    if (isPlatformBrowser(this.platformId)) {
+      const currentState = window.history.state;
+      if (currentState?.message) {
+        this.toastMessage = currentState.message;
+        this.toastType = 'success';
+        setTimeout(() => (this.toastMessage = ''), 2000);
+      }
     }
     this.getAllTasks();
   }
@@ -82,7 +88,7 @@ export class TaskListComponent implements OnInit {
   }
 
   private downloadAsCSV(data: any[], filename: string): void {
-    if (data.length === 0) return;
+    if (!isPlatformBrowser(this.platformId) || data.length === 0) return;
     const headers = Object.keys(data[0]);
     const csvContent = [
       headers.join(','),
@@ -150,7 +156,9 @@ export class TaskListComponent implements OnInit {
   }
 
   logout(): void {
-    localStorage.removeItem('loggedInUser');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('loggedInUser');
+    }
     this.router.navigate(['/login']);
   }
 
