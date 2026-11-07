@@ -1,89 +1,58 @@
 <div class="profile-page">
 
-  <!-- Loading State -->
-  <div *ngIf="loading" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status"></div>
-    <p class="mt-2 text-muted">Loading profile...</p>
-  </div>
+  @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-2 text-muted">Loading profile...</p>
+    </div>
+  }
 
-  <!-- Profile Card -->
-  <div *ngIf="!loading && employee" class="profile-container">
-
+  @if (!loading && employee) {
     <!-- Header Card -->
     <div class="profile-header-card">
       <div class="profile-avatar-wrap">
-        <img [src]="getProfileImage()" alt="Profile Photo" class="profile-avatar" />
-        <span class="status-dot" [class.active]="employee.status === 'Active'" [class.inactive]="employee.status !== 'Active'"></span>
+        <img [src]="getProfileImage()" alt="Photo" class="profile-avatar" />
+        <span class="status-dot" [class.active]="employee.status === 'Active'"></span>
       </div>
-      <div class="profile-header-info">
+      <div>
         <h2 class="profile-name">{{ employee.firstName }} {{ employee.lastName }}</h2>
-        <p class="profile-designation">{{ employee.designation }}</p>
-        <span class="badge" [ngClass]="employee.status === 'Active' ? 'bg-success' : 'bg-secondary'">
+        <p class="profile-desig">{{ employee.designation }}</p>
+        <span class="badge rounded-pill" [ngClass]="employee.status === 'Active' ? 'bg-success' : 'bg-secondary'">
           {{ employee.status }}
         </span>
       </div>
-      <div class="profile-header-actions ms-auto">
-        <button class="btn btn-outline-secondary btn-sm me-2" (click)="back()">
-          <i class="bi bi-arrow-left me-1"></i> Back
-        </button>
-        <button class="btn btn-primary btn-sm" (click)="edit()">
-          <i class="bi bi-pencil me-1"></i> Edit
-        </button>
+      <div class="ms-auto d-flex gap-2">
+        <app-btn label="Back" icon="arrow-left" variant="outline-secondary" size="sm" (onClick)="back()"></app-btn>
+        <app-btn label="Edit" icon="pencil" variant="primary" size="sm" (onClick)="edit()"></app-btn>
       </div>
     </div>
 
-    <!-- Details Grid -->
-    <div class="details-grid">
-
-      <!-- Personal Info -->
+    <!-- Detail Grid -->
+    <div class="detail-grid">
       <div class="detail-card">
-        <div class="detail-card-title"><i class="bi bi-person-fill me-2 text-primary"></i>Personal Information</div>
-        <div class="detail-row">
-          <span class="detail-label">Employee No</span>
-          <span class="detail-value">{{ employee.employeeNumber }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">First Name</span>
-          <span class="detail-value">{{ employee.firstName }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Last Name</span>
-          <span class="detail-value">{{ employee.lastName || '—' }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Designation</span>
-          <span class="detail-value">{{ employee.designation }}</span>
-        </div>
+        <div class="detail-card-title"><i class="bi bi-person-fill me-2 text-primary"></i>Personal</div>
+        <div class="detail-row"><span>Emp No</span><span>{{ employee.employeeNumber }}</span></div>
+        <div class="detail-row"><span>First Name</span><span>{{ employee.firstName }}</span></div>
+        <div class="detail-row"><span>Last Name</span><span>{{ employee.lastName || '—' }}</span></div>
+        <div class="detail-row"><span>Designation</span><span>{{ employee.designation }}</span></div>
       </div>
-
-      <!-- Contact Info -->
       <div class="detail-card">
-        <div class="detail-card-title"><i class="bi bi-envelope-fill me-2 text-success"></i>Contact Details</div>
+        <div class="detail-card-title"><i class="bi bi-envelope-fill me-2 text-success"></i>Contact</div>
+        <div class="detail-row"><span>Email</span><span>{{ employee.email }}</span></div>
+        <div class="detail-row"><span>Address</span><span>{{ employee.address }}</span></div>
         <div class="detail-row">
-          <span class="detail-label">Email</span>
-          <span class="detail-value">{{ employee.email }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Address</span>
-          <span class="detail-value">{{ employee.address }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Status</span>
-          <span class="detail-value">
-            <span class="badge" [ngClass]="employee.status === 'Active' ? 'bg-success' : 'bg-secondary'">
-              {{ employee.status }}
-            </span>
+          <span>Status</span>
+          <span class="badge rounded-pill" [ngClass]="employee.status === 'Active' ? 'bg-success' : 'bg-secondary'">
+            {{ employee.status }}
           </span>
         </div>
       </div>
-
-      <!-- Notes -->
-      <div class="detail-card full-width" *ngIf="employee.description">
-        <div class="detail-card-title"><i class="bi bi-chat-left-text-fill me-2 text-warning"></i>Notes / Description</div>
-        <p class="detail-notes">{{ employee.description }}</p>
-      </div>
-
+      @if (employee.description) {
+        <div class="detail-card full-width">
+          <div class="detail-card-title"><i class="bi bi-chat-left-text-fill me-2 text-warning"></i>Notes</div>
+          <p class="mb-0" style="font-size:13px;color:#374151;line-height:1.7">{{ employee.description }}</p>
+        </div>
+      }
     </div>
-  </div>
-
+  }
 </div>

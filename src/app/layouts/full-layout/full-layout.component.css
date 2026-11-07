@@ -1,0 +1,19 @@
+.erp-shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: #f1f5f9;
+}
+
+.erp-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.erp-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}

@@ -1,79 +1,115 @@
 <div class="leave-page">
 
-  <div class="leave-grid">
+  <!-- Leave Balance Cards -->
+  <div class="balance-grid">
+    <div class="balance-card">
+      <div class="balance-icon" style="background:#eff6ff"><i class="bi bi-calendar2-week text-primary fs-4"></i></div>
+      <div>
+        <div class="balance-val">12 <span class="balance-total">/ 20</span></div>
+        <div class="balance-label">Annual Leave</div>
+        <div class="balance-bar"><div class="balance-fill" style="width:60%;background:#3b82f6"></div></div>
+      </div>
+    </div>
+    <div class="balance-card">
+      <div class="balance-icon" style="background:#ecfdf5"><i class="bi bi-bandaid text-success fs-4"></i></div>
+      <div>
+        <div class="balance-val">8 <span class="balance-total">/ 10</span></div>
+        <div class="balance-label">Sick Leave</div>
+        <div class="balance-bar"><div class="balance-fill" style="width:80%;background:#10b981"></div></div>
+      </div>
+    </div>
+    <div class="balance-card">
+      <div class="balance-icon" style="background:#fef3c7"><i class="bi bi-lightning-charge text-warning fs-4"></i></div>
+      <div>
+        <div class="balance-val">3 <span class="balance-total">/ 5</span></div>
+        <div class="balance-label">Emergency Leave</div>
+        <div class="balance-bar"><div class="balance-fill" style="width:60%;background:#f59e0b"></div></div>
+      </div>
+    </div>
+    <div class="balance-card">
+      <div class="balance-icon" style="background:#fdf2f8"><i class="bi bi-calendar-x text-danger fs-4"></i></div>
+      <div>
+        <div class="balance-val">4 <span class="balance-total">/ 7</span></div>
+        <div class="balance-label">Casual Leave</div>
+        <div class="balance-bar"><div class="balance-fill" style="width:57%;background:#a855f7"></div></div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Apply Leave Form -->
+  <div class="leave-grid">
+    <!-- Apply Form -->
     <div class="leave-form-card">
       <div class="card-title"><i class="bi bi-calendar-plus me-2 text-primary"></i>Apply for Leave</div>
 
-      <div *ngIf="successMsg" class="alert alert-success py-2">{{ successMsg }}</div>
+      @if (successMsg) {
+        <div class="alert alert-success py-2 mb-3">{{ successMsg }}</div>
+      }
 
       <div class="mb-3">
         <label class="form-label">Leave Type</label>
         <select class="form-select form-select-sm" [(ngModel)]="form.type">
           <option value="">-- Select Type --</option>
-          <option *ngFor="let t of leaveTypes" [value]="t">{{ t }}</option>
+          @for (t of leaveTypes; track t) {
+            <option [value]="t">{{ t }}</option>
+          }
         </select>
-        <div *ngIf="submitted && !form.type" class="text-danger mt-1" style="font-size:12px">Required</div>
+        @if (submitted && !form.type) { <div class="val-err">Required</div> }
       </div>
 
       <div class="mb-3">
         <label class="form-label">From Date</label>
         <input type="date" class="form-control form-control-sm" [(ngModel)]="form.from" />
-        <div *ngIf="submitted && !form.from" class="text-danger mt-1" style="font-size:12px">Required</div>
+        @if (submitted && !form.from) { <div class="val-err">Required</div> }
       </div>
 
       <div class="mb-3">
         <label class="form-label">To Date</label>
         <input type="date" class="form-control form-control-sm" [(ngModel)]="form.to" />
-        <div *ngIf="submitted && !form.to" class="text-danger mt-1" style="font-size:12px">Required</div>
+        @if (submitted && !form.to) { <div class="val-err">Required</div> }
       </div>
 
-      <div class="mb-3">
+      <div class="mb-4">
         <label class="form-label">Reason</label>
-        <textarea class="form-control form-control-sm" rows="3" placeholder="Enter reason..." [(ngModel)]="form.reason"></textarea>
-        <div *ngIf="submitted && !form.reason.trim()" class="text-danger mt-1" style="font-size:12px">Required</div>
+        <textarea class="form-control form-control-sm" rows="3"
+                  placeholder="Enter reason..." [(ngModel)]="form.reason"></textarea>
+        @if (submitted && !form.reason.trim()) { <div class="val-err">Required</div> }
       </div>
 
-      <button class="btn btn-primary btn-sm w-100" (click)="submitLeave()">
-        <i class="bi bi-send me-1"></i> Submit Request
-      </button>
+      <app-btn label="Submit Request" icon="send" variant="primary" size="sm"
+               style="width:100%;display:block" (onClick)="submitLeave()"></app-btn>
     </div>
 
-    <!-- Leave History -->
+    <!-- History Table -->
     <div class="leave-history-card">
       <div class="card-title"><i class="bi bi-clock-history me-2 text-secondary"></i>Leave History</div>
-
-      <table class="table table-sm table-hover">
-        <thead>
-          <tr>
-            <th>Employee</th>
-            <th>Type</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Days</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let req of leaveRequests">
-            <td>{{ req.employee }}</td>
-            <td>{{ req.type }}</td>
-            <td>{{ req.from }}</td>
-            <td>{{ req.to }}</td>
-            <td>{{ req.days }}</td>
-            <td>
-              <span class="badge"
-                [ngClass]="{
-                  'bg-warning text-dark': req.status === 'Pending',
-                  'bg-success':          req.status === 'Approved',
-                  'bg-danger':           req.status === 'Rejected'
-                }">{{ req.status }}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table table-sm table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (req of leaveRequests; track req.id) {
+              <tr>
+                <td class="fw-medium">{{ req.employee }}</td>
+                <td>{{ req.type }}</td>
+                <td class="text-muted">{{ req.from }}</td>
+                <td class="text-muted">{{ req.to }}</td>
+                <td>{{ req.days }}</td>
+                <td>
+                  <span class="badge rounded-pill"
+                    [ngClass]="{
+                      'bg-warning text-dark': req.status === 'Pending',
+                      'bg-success':          req.status === 'Approved',
+                      'bg-danger':           req.status === 'Rejected'
+                    }">{{ req.status }}</span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
-
   </div>
 </div>
