@@ -10,13 +10,15 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
-  // 🔹 Receive dark mode state from parent
   @Input() isDarkMode: boolean = false;
 
-  // 🔹 Menu items dynamically
   menuItems = [
-    { label: 'Home', link: '/home', icon: 'bi-house-door' },
-    { label: 'Task List', link: '/tasks', icon: 'bi-list-task' },
-    { label: 'Settings', link: '/setting', icon: 'bi-gear' }
+    { label: 'Dashboard',  link: '/home',       icon: 'bi-speedometer2' },
+    { label: 'Employees',  link: '/tasks',       icon: 'bi-people' },
+    { label: 'Attendance', link: '/attendance',  icon: 'bi-calendar-check' },
+    { label: 'Leave',      link: '/leave',       icon: 'bi-calendar-x' },
+    { label: 'Payroll',    link: '/payroll',     icon: 'bi-cash-stack' },
+    { label: 'Reports',    link: '/reports',     icon: 'bi-bar-chart' },
+    { label: 'Settings',   link: '/setting',     icon: 'bi-gear' }
   ];
 }

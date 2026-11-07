@@ -1,22 +1,3 @@
-<!-- Toast Container -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div *ngIf="toastMessage" class="toast show" role="alert">
-    <div class="toast-header">
-      <i class="bi me-2" 
-         [ngClass]="{
-           'bi-check-circle-fill text-success': toastType === 'success',
-           'bi-exclamation-triangle-fill text-danger': toastType === 'error'
-         }"></i>
-      <strong class="me-auto">
-        {{ toastType === 'success' ? 'Success' : 'Error' }}
-      </strong>
-      <button type="button" class="btn-close" (click)="toastMessage = ''"></button>
-    </div>
-    <div class="toast-body">
-      {{ toastMessage }}
-    </div>
-  </div>
-</div>
 
 <!-- Top Header -->
 <div class="card shadow-sm px-4 py-3" style="margin-top: 0;">
@@ -74,7 +55,7 @@
       <tr *ngFor="let task of filteredTasks(); let i = index">
         <td><input type="checkbox" [(ngModel)]="task.selected" (change)="onTaskSelectChange()" /></td>
         <td>{{ task.employeeNumber }}</td>
-        <td>{{ task.firstName }}</td>
+        <td><a [routerLink]="['/employee', task.id]" class="employee-link">{{ task.firstName }}</a></td>
         <td>{{ task.email }}</td>
         <td>{{ task.address }}</td>
         <td>

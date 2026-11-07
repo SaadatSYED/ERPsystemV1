@@ -1,0 +1,53 @@
+<div class="attendance-page">
+
+  <!-- Header -->
+  <div class="page-header-card">
+    <div>
+      <h5 class="page-title"><i class="bi bi-calendar-check me-2 text-primary"></i>Attendance</h5>
+      <p class="page-subtitle">{{ monthName }}</p>
+    </div>
+    <div class="legend">
+      <span class="legend-item present">P Present</span>
+      <span class="legend-item absent">A Absent</span>
+      <span class="legend-item half">H Half-Day</span>
+      <span class="legend-item holiday">🎉 Holiday</span>
+      <span class="legend-item weekend">— Weekend</span>
+    </div>
+  </div>
+
+  <!-- Attendance Table -->
+  <div class="attendance-table-wrap">
+    <table class="attendance-table">
+      <thead>
+        <tr>
+          <th class="emp-col">Employee</th>
+          <th *ngFor="let cell of calendarDays"
+              [class.weekend-col]="cell.weekday >= 5"
+              [class.empty-col]="cell.day === null">
+            <span *ngIf="cell.day !== null">{{ cell.day }}</span>
+          </th>
+          <th class="summary-col">Present</th>
+          <th class="summary-col">Absent</th>
+          <th class="summary-col">Half</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of employees">
+          <td class="emp-name-cell">
+            <div class="emp-name">{{ emp.name }}</div>
+            <div class="emp-desig">{{ emp.designation }}</div>
+          </td>
+          <td *ngFor="let cell of calendarDays"
+              [class]="'cell-' + getStatus(emp.id, cell.day)"
+              [title]="getStatus(emp.id, cell.day)">
+            <span>{{ statusLabel(getStatus(emp.id, cell.day)) }}</span>
+          </td>
+          <td class="summary-cell text-success">{{ getSummary(emp.id).present }}</td>
+          <td class="summary-cell text-danger">{{ getSummary(emp.id).absent }}</td>
+          <td class="summary-cell text-warning">{{ getSummary(emp.id).half }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

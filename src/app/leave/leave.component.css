@@ -1,0 +1,20 @@
+.leave-page { padding: 4px 0; }
+
+.leave-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.leave-form-card, .leave-history-card {
+  background: var(--card-bg, #fff);
+  border-radius: 12px; padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+}
+
+.card-title { font-weight: 600; font-size: 14px; margin-bottom: 16px; color: var(--text-primary, #333); }
+
+@media (max-width: 768px) {
+  .leave-grid { grid-template-columns: 1fr; }
+}

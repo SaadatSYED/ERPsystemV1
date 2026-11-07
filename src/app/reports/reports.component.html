@@ -1,0 +1,80 @@
+<div class="reports-page">
+
+  <!-- Header -->
+  <div class="page-header-card">
+    <h5 class="page-title"><i class="bi bi-bar-chart me-2 text-primary"></i>Reports</h5>
+    <p class="page-subtitle">Analytics and data exports</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs-wrap">
+    <button class="tab-btn" [class.active]="activeTab === 'employees'" (click)="setTab('employees')">
+      <i class="bi bi-people me-1"></i> Employee Report
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'attendance'" (click)="setTab('attendance')">
+      <i class="bi bi-calendar-check me-1"></i> Attendance Summary
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'leave'" (click)="setTab('leave')">
+      <i class="bi bi-calendar-x me-1"></i> Leave Summary
+    </button>
+  </div>
+
+  <!-- Employee Report Tab -->
+  <div class="tab-content-card" *ngIf="activeTab === 'employees'">
+
+    <!-- Filters -->
+    <div class="filters-row">
+      <select class="form-select form-select-sm" [(ngModel)]="filterStatus" (change)="applyFilter()" style="width:150px">
+        <option value="">All Statuses</option>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+      <input type="text" class="form-control form-control-sm" placeholder="Filter designation..."
+             [(ngModel)]="filterDesignation" (input)="applyFilter()" style="width:200px" />
+      <button class="btn btn-success btn-sm" (click)="exportCSV()">
+        <i class="bi bi-download me-1"></i> Export CSV
+      </button>
+    </div>
+
+    <div *ngIf="loading" class="text-center py-4">
+      <div class="spinner-border spinner-border-sm text-primary"></div>
+      <span class="ms-2 text-muted">Loading...</span>
+    </div>
+
+    <table class="table table-sm table-hover" *ngIf="!loading">
+      <thead class="table-light">
+        <tr>
+          <th>#</th><th>Emp No</th><th>Name</th><th>Email</th><th>Designation</th><th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let e of filteredEmployees; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ e.employeeNumber }}</td>
+          <td>{{ e.firstName }} {{ e.lastName }}</td>
+          <td>{{ e.email }}</td>
+          <td>{{ e.designation }}</td>
+          <td><span class="badge" [ngClass]="e.status === 'Active' ? 'bg-success' : 'bg-secondary'">{{ e.status }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="text-muted text-end" style="font-size:12px">{{ filteredEmployees.length }} records</p>
+  </div>
+
+  <!-- Attendance Summary Tab -->
+  <div class="tab-content-card" *ngIf="activeTab === 'attendance'">
+    <h6 class="chart-title">Daily Attendance — October 2026</h6>
+    <div class="chart-wrap">
+      <canvas #attendanceChart></canvas>
+    </div>
+  </div>
+
+  <!-- Leave Summary Tab -->
+  <div class="tab-content-card" *ngIf="activeTab === 'leave'">
+    <h6 class="chart-title">Leave by Type (All Time)</h6>
+    <div class="chart-wrap chart-wrap-sm">
+      <canvas #leaveChart></canvas>
+    </div>
+  </div>
+
+</div>

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../../services/task.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-add-task',
@@ -17,7 +18,7 @@ export class AddTaskComponent implements OnInit {
   taskId: number | null = null;
 
   profileImage: string | ArrayBuffer | null = null;
-  defaultImage: string = 'https://www.w3schools.com/howto/img_avatar.png'; // 👈 Default Avatar
+  defaultImage: string = 'https://www.w3schools.com/howto/img_avatar.png';
 
   employee: any;
   isViewMode: any;
@@ -25,6 +26,7 @@ export class AddTaskComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private taskService: TaskService,
+    private toastService: ToastService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -79,19 +81,25 @@ export class AddTaskComponent implements OnInit {
       this.taskService.updateTask(this.taskId, updated).subscribe({
         next: () => {
           this.router.navigate(['/tasks'], {
-            state: { message: '✅ Employee updated successfully!' }
+            state: { message: 'Employee updated successfully!' }
           });
         },
-        error: (err) => console.error('❌ Update failed:', err)
+        error: (err) => {
+          console.error('❌ Update failed:', err);
+          this.toastService.error('Update failed. Please try again.');
+        }
       });
     } else {
       this.taskService.addTask(taskData).subscribe({
         next: () => {
           this.router.navigate(['/tasks'], {
-            state: { message: '✅ Record created successfully' }
+            state: { message: 'Record created successfully' }
           });
         },
-        error: (err) => console.error('❌ Add failed:', err)
+        error: (err) => {
+          console.error('❌ Add failed:', err);
+          this.toastService.error('Failed to create record. Please try again.');
+        }
       });
     }
   }
@@ -111,7 +119,7 @@ export class AddTaskComponent implements OnInit {
         }
       },
       error: () => {
-        alert('❌ Task not found!');
+        this.toastService.error('Employee not found!');
         this.router.navigate(['/tasks']);
       }
     });
@@ -124,19 +132,19 @@ export class AddTaskComponent implements OnInit {
       const maxSizeMB = 1;
 
       if (!allowedTypes.includes(file.type)) {
-        alert('❌ Only JPEG/PNG allowed.');
+        this.toastService.error('Only JPEG/PNG allowed.');
         return;
       }
 
       if (file.size > maxSizeMB * 1024 * 1024) {
-        alert(`❌ Max file size is ${maxSizeMB}MB.`);
+        this.toastService.error(`Max file size is ${maxSizeMB}MB.`);
         return;
       }
 
       const reader = new FileReader();
       reader.onload = () => {
         this.profileImage = reader.result;
-        this.taskForm.patchValue({ profileImage: reader.result }); // 👈 Save in form
+        this.taskForm.patchValue({ profileImage: reader.result });
       };
       reader.readAsDataURL(file);
     }

@@ -1,27 +1,96 @@
-<div class="search-box">
-  <!-- Location -->
-  <mat-form-field appearance="outline">
-    <mat-label>Location</mat-label>
-    <input matInput placeholder="Where are you going?" [(ngModel)]="selectedLocation">
-  </mat-form-field>
+<div class="dashboard">
 
-  <!-- Date Range -->
-  <mat-form-field appearance="outline">
-    <mat-label>Check-in - Check-out</mat-label>
-    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-      <input matStartDate formControlName="start" placeholder="Check-in">
-      <input matEndDate formControlName="end" placeholder="Check-out">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
+  <!-- KPI Cards -->
+  <div class="kpi-row">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-icon"><i class="bi bi-people-fill"></i></div>
+      <div class="kpi-info">
+        <div class="kpi-value">{{ loading ? '...' : totalEmployees }}</div>
+        <div class="kpi-label">Total Employees</div>
+      </div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-icon"><i class="bi bi-person-check-fill"></i></div>
+      <div class="kpi-info">
+        <div class="kpi-value">{{ loading ? '...' : activeEmployees }}</div>
+        <div class="kpi-label">Active</div>
+      </div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-icon"><i class="bi bi-person-x-fill"></i></div>
+      <div class="kpi-info">
+        <div class="kpi-value">{{ loading ? '...' : inactiveEmployees }}</div>
+        <div class="kpi-label">Inactive</div>
+      </div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-icon"><i class="bi bi-calendar-plus"></i></div>
+      <div class="kpi-info">
+        <div class="kpi-value">3</div>
+        <div class="kpi-label">New This Month</div>
+      </div>
+    </div>
+  </div>
 
-  <!-- Guests -->
-  <mat-form-field appearance="outline">
-    <mat-label>Guests</mat-label>
-    <input matInput type="number" min="1" [(ngModel)]="guests">
-  </mat-form-field>
+  <!-- Charts Row -->
+  <div class="charts-row">
+    <div class="chart-card">
+      <h6 class="chart-title">Employee Status</h6>
+      <canvas #doughnutCanvas></canvas>
+    </div>
+    <div class="chart-card">
+      <h6 class="chart-title">By Designation (Top 5)</h6>
+      <canvas #barCanvas></canvas>
+    </div>
+  </div>
 
-  <!-- Search Button -->
-  <button mat-raised-button color="primary" (click)="search()">Search</button>
+  <!-- Quick Actions + Recent Employees -->
+  <div class="bottom-row">
+    <div class="quick-actions">
+      <h6 class="section-title">Quick Actions</h6>
+      <div class="action-btns">
+        <a routerLink="/task-form" class="btn btn-primary btn-sm">
+          <i class="bi bi-plus-circle me-1"></i> Add Employee
+        </a>
+        <a routerLink="/tasks" class="btn btn-outline-primary btn-sm">
+          <i class="bi bi-people me-1"></i> View All
+        </a>
+        <a routerLink="/reports" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-bar-chart me-1"></i> Reports
+        </a>
+        <a routerLink="/attendance" class="btn btn-outline-success btn-sm">
+          <i class="bi bi-calendar-check me-1"></i> Attendance
+        </a>
+      </div>
+    </div>
+
+    <div class="recent-card">
+      <h6 class="section-title">Recent Employees</h6>
+      <div *ngIf="loading" class="text-center py-3 text-muted">Loading...</div>
+      <table *ngIf="!loading" class="table table-sm mb-0">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of recentEmployees">
+            <td>{{ emp.firstName }} {{ emp.lastName }}</td>
+            <td>{{ emp.designation }}</td>
+            <td>
+              <span class="badge" [class.bg-success]="emp.status === 'Active'" [class.bg-secondary]="emp.status !== 'Active'">
+                {{ emp.status }}
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="recentEmployees.length === 0">
+            <td colspan="3" class="text-center text-muted">No employees yet</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>

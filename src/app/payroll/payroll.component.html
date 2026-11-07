@@ -1,0 +1,94 @@
+<div class="payroll-page">
+
+  <!-- Header -->
+  <div class="page-header-card">
+    <h5 class="page-title"><i class="bi bi-cash-stack me-2 text-primary"></i>Payroll</h5>
+    <p class="page-subtitle">Salary records for all employees</p>
+  </div>
+
+  <!-- Payroll Table -->
+  <div class="table-card">
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Employee</th>
+          <th>Designation</th>
+          <th>Month</th>
+          <th class="text-end">Basic</th>
+          <th class="text-end">Allowances</th>
+          <th class="text-end">Deductions</th>
+          <th class="text-end">Net Pay</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rec of payrollData">
+          <td class="fw-semibold">{{ rec.employee }}</td>
+          <td class="text-muted">{{ rec.designation }}</td>
+          <td>{{ rec.month }}</td>
+          <td class="text-end">{{ formatCurrency(rec.basic) }}</td>
+          <td class="text-end text-success">+{{ formatCurrency(rec.allowances) }}</td>
+          <td class="text-end text-danger">-{{ formatCurrency(rec.deductions) }}</td>
+          <td class="text-end fw-bold">{{ formatCurrency(rec.net) }}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-outline-primary" (click)="viewSlip(rec)">
+              <i class="bi bi-receipt me-1"></i> Slip
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pay Slip Modal -->
+  <div class="modal-overlay" *ngIf="selectedSlip" (click)="closeSlip()">
+    <div class="payslip-modal" (click)="$event.stopPropagation()">
+
+      <div class="payslip-header">
+        <div>
+          <h4 class="company-name">ERP Corp Ltd.</h4>
+          <p class="company-sub">Pay Slip — {{ selectedSlip.month }}</p>
+        </div>
+        <button class="btn-close" (click)="closeSlip()"></button>
+      </div>
+
+      <hr />
+
+      <div class="payslip-info">
+        <div><span class="info-label">Employee</span><span class="info-val">{{ selectedSlip.employee }}</span></div>
+        <div><span class="info-label">Designation</span><span class="info-val">{{ selectedSlip.designation }}</span></div>
+        <div><span class="info-label">Period</span><span class="info-val">{{ selectedSlip.month }}</span></div>
+      </div>
+
+      <hr />
+
+      <div class="payslip-breakdown">
+        <div class="breakdown-col">
+          <div class="breakdown-title text-success">Earnings</div>
+          <div class="breakdown-row"><span>Basic Salary</span><span>{{ formatCurrency(selectedSlip.basic) }}</span></div>
+          <div class="breakdown-row"><span>Allowances</span><span>{{ formatCurrency(selectedSlip.allowances) }}</span></div>
+          <div class="breakdown-row total"><span>Gross</span><span>{{ formatCurrency(selectedSlip.basic + selectedSlip.allowances) }}</span></div>
+        </div>
+        <div class="breakdown-col">
+          <div class="breakdown-title text-danger">Deductions</div>
+          <div class="breakdown-row"><span>Tax & SSI</span><span>{{ formatCurrency(selectedSlip.deductions) }}</span></div>
+          <div class="breakdown-row total"><span>Total Deductions</span><span>{{ formatCurrency(selectedSlip.deductions) }}</span></div>
+        </div>
+      </div>
+
+      <div class="payslip-net">
+        <span>Net Pay</span>
+        <span class="net-amount">{{ formatCurrency(selectedSlip.net) }}</span>
+      </div>
+
+      <div class="payslip-actions">
+        <button class="btn btn-secondary btn-sm" (click)="closeSlip()">Close</button>
+        <button class="btn btn-primary btn-sm" (click)="print()">
+          <i class="bi bi-printer me-1"></i> Print / Download PDF
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

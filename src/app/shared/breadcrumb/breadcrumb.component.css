@@ -1,0 +1,17 @@
+.breadcrumb-nav {
+  padding: 8px 0 12px 0;
+}
+.breadcrumb {
+  background: none;
+  font-size: 13px;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  content: '›';
+  color: #aaa;
+}
+.breadcrumb-link {
+  color: var(--primary-color, #0d6efd);
+  text-decoration: none;
+}
+.breadcrumb-link:hover { text-decoration: underline; }
+.breadcrumb-item.active { color: #6c757d; }

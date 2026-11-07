@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
+import { ToastService } from '../../services/toast.service';
 import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
@@ -16,14 +17,13 @@ export class TaskListComponent implements OnInit {
   tasks: any[] = [];
   filteredTaskList: any[] = [];
   searchKeyword: string = '';
-  toastMessage: string = '';
-  toastType: 'success' | 'error' = 'success';
   selectAll: boolean = false;
   first: number = 0;
   rows: number = 3;
 
   constructor(
     private taskService: TaskService,
+    private toastService: ToastService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
@@ -32,9 +32,7 @@ export class TaskListComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       const currentState = window.history.state;
       if (currentState?.message) {
-        this.toastMessage = currentState.message;
-        this.toastType = 'success';
-        setTimeout(() => (this.toastMessage = ''), 2000);
+        this.toastService.success(currentState.message);
       }
     }
     this.getAllTasks();
@@ -48,8 +46,7 @@ export class TaskListComponent implements OnInit {
       },
       error: (err) => {
         console.error('❌ Failed to load tasks:', err);
-        this.toastMessage = '❌ Failed to load employee list!';
-        this.toastType = 'error';
+        this.toastService.error('Failed to load employee list!');
       }
     });
   }
@@ -58,17 +55,13 @@ export class TaskListComponent implements OnInit {
     this.searchKeyword = '';
     this.getAllTasks();
     this.first = 0;
-    this.toastMessage = '🔁 Task list refreshed!';
-    this.toastType = 'success';
-    setTimeout(() => (this.toastMessage = ''), 2000);
+    this.toastService.info('Task list refreshed!');
   }
 
   exportTasks(): void {
     const selectedTasks = this.tasks.filter(task => task.selected);
     if (selectedTasks.length === 0) {
-      this.toastMessage = '❌ Please select at least one employee to download!';
-      this.toastType = 'error';
-      setTimeout(() => (this.toastMessage = ''), 3000);
+      this.toastService.error('Please select at least one employee to download!');
       return;
     }
     const taskData = selectedTasks.map(task => ({
@@ -82,9 +75,7 @@ export class TaskListComponent implements OnInit {
       description: task.description
     }));
     this.downloadAsCSV(taskData, `selected_employees_${selectedTasks.length}`);
-    this.toastMessage = `✅ Downloaded ${selectedTasks.length} employee(s)!`;
-    this.toastType = 'success';
-    setTimeout(() => (this.toastMessage = ''), 3000);
+    this.toastService.success(`Downloaded ${selectedTasks.length} employee(s)!`);
   }
 
   private downloadAsCSV(data: any[], filename: string): void {
@@ -138,12 +129,12 @@ export class TaskListComponent implements OnInit {
     if (confirm('Are you sure you want to delete this employee?')) {
       this.taskService.deleteTask(id).subscribe({
         next: () => {
-          alert('✅ Employee deleted successfully!');
+          this.toastService.success('Employee deleted successfully!');
           this.getAllTasks();
         },
         error: (err) => {
           console.error('❌ Failed to delete employee:', err);
-          alert('❌ Could not delete. Please try again.');
+          this.toastService.error('Could not delete. Please try again.');
         }
       });
     }
@@ -164,33 +155,11 @@ export class TaskListComponent implements OnInit {
 
   Math = Math;
 
-  goToFirstPage(): void {
-    this.first = 0;
-  }
-
-  goToPreviousPage(): void {
-    this.first = Math.max(0, this.first - this.rows);
-  }
-
-  goToNextPage(): void {
-    if (this.first + this.rows < this.filteredTaskList.length) {
-      this.first += this.rows;
-    }
-  }
-
-  goToLastPage(): void {
-    this.first = Math.floor((this.filteredTaskList.length - 1) / this.rows) * this.rows;
-  }
-
-  onRowsChange(): void {
-    this.first = 0;
-  }
-
-  onSelectAllChange(): void {
-    this.tasks.forEach(task => task.selected = this.selectAll);
-  }
-
-  onTaskSelectChange(): void {
-    this.selectAll = this.tasks.every(task => task.selected);
-  }
+  goToFirstPage(): void { this.first = 0; }
+  goToPreviousPage(): void { this.first = Math.max(0, this.first - this.rows); }
+  goToNextPage(): void { if (this.first + this.rows < this.filteredTaskList.length) this.first += this.rows; }
+  goToLastPage(): void { this.first = Math.floor((this.filteredTaskList.length - 1) / this.rows) * this.rows; }
+  onRowsChange(): void { this.first = 0; }
+  onSelectAllChange(): void { this.tasks.forEach(task => task.selected = this.selectAll); }
+  onTaskSelectChange(): void { this.selectAll = this.tasks.every(task => task.selected); }
 }

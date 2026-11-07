@@ -1,0 +1,79 @@
+<div class="leave-page">
+
+  <div class="leave-grid">
+
+    <!-- Apply Leave Form -->
+    <div class="leave-form-card">
+      <div class="card-title"><i class="bi bi-calendar-plus me-2 text-primary"></i>Apply for Leave</div>
+
+      <div *ngIf="successMsg" class="alert alert-success py-2">{{ successMsg }}</div>
+
+      <div class="mb-3">
+        <label class="form-label">Leave Type</label>
+        <select class="form-select form-select-sm" [(ngModel)]="form.type">
+          <option value="">-- Select Type --</option>
+          <option *ngFor="let t of leaveTypes" [value]="t">{{ t }}</option>
+        </select>
+        <div *ngIf="submitted && !form.type" class="text-danger mt-1" style="font-size:12px">Required</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">From Date</label>
+        <input type="date" class="form-control form-control-sm" [(ngModel)]="form.from" />
+        <div *ngIf="submitted && !form.from" class="text-danger mt-1" style="font-size:12px">Required</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">To Date</label>
+        <input type="date" class="form-control form-control-sm" [(ngModel)]="form.to" />
+        <div *ngIf="submitted && !form.to" class="text-danger mt-1" style="font-size:12px">Required</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Reason</label>
+        <textarea class="form-control form-control-sm" rows="3" placeholder="Enter reason..." [(ngModel)]="form.reason"></textarea>
+        <div *ngIf="submitted && !form.reason.trim()" class="text-danger mt-1" style="font-size:12px">Required</div>
+      </div>
+
+      <button class="btn btn-primary btn-sm w-100" (click)="submitLeave()">
+        <i class="bi bi-send me-1"></i> Submit Request
+      </button>
+    </div>
+
+    <!-- Leave History -->
+    <div class="leave-history-card">
+      <div class="card-title"><i class="bi bi-clock-history me-2 text-secondary"></i>Leave History</div>
+
+      <table class="table table-sm table-hover">
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Type</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Days</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let req of leaveRequests">
+            <td>{{ req.employee }}</td>
+            <td>{{ req.type }}</td>
+            <td>{{ req.from }}</td>
+            <td>{{ req.to }}</td>
+            <td>{{ req.days }}</td>
+            <td>
+              <span class="badge"
+                [ngClass]="{
+                  'bg-warning text-dark': req.status === 'Pending',
+                  'bg-success':          req.status === 'Approved',
+                  'bg-danger':           req.status === 'Rejected'
+                }">{{ req.status }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

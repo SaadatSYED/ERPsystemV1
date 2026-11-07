@@ -1,0 +1,89 @@
+<div class="profile-page">
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2 text-muted">Loading profile...</p>
+  </div>
+
+  <!-- Profile Card -->
+  <div *ngIf="!loading && employee" class="profile-container">
+
+    <!-- Header Card -->
+    <div class="profile-header-card">
+      <div class="profile-avatar-wrap">
+        <img [src]="getProfileImage()" alt="Profile Photo" class="profile-avatar" />
+        <span class="status-dot" [class.active]="employee.status === 'Active'" [class.inactive]="employee.status !== 'Active'"></span>
+      </div>
+      <div class="profile-header-info">
+        <h2 class="profile-name">{{ employee.firstName }} {{ employee.lastName }}</h2>
+        <p class="profile-designation">{{ employee.designation }}</p>
+        <span class="badge" [ngClass]="employee.status === 'Active' ? 'bg-success' : 'bg-secondary'">
+          {{ employee.status }}
+        </span>
+      </div>
+      <div class="profile-header-actions ms-auto">
+        <button class="btn btn-outline-secondary btn-sm me-2" (click)="back()">
+          <i class="bi bi-arrow-left me-1"></i> Back
+        </button>
+        <button class="btn btn-primary btn-sm" (click)="edit()">
+          <i class="bi bi-pencil me-1"></i> Edit
+        </button>
+      </div>
+    </div>
+
+    <!-- Details Grid -->
+    <div class="details-grid">
+
+      <!-- Personal Info -->
+      <div class="detail-card">
+        <div class="detail-card-title"><i class="bi bi-person-fill me-2 text-primary"></i>Personal Information</div>
+        <div class="detail-row">
+          <span class="detail-label">Employee No</span>
+          <span class="detail-value">{{ employee.employeeNumber }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">First Name</span>
+          <span class="detail-value">{{ employee.firstName }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Last Name</span>
+          <span class="detail-value">{{ employee.lastName || '—' }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Designation</span>
+          <span class="detail-value">{{ employee.designation }}</span>
+        </div>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="detail-card">
+        <div class="detail-card-title"><i class="bi bi-envelope-fill me-2 text-success"></i>Contact Details</div>
+        <div class="detail-row">
+          <span class="detail-label">Email</span>
+          <span class="detail-value">{{ employee.email }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Address</span>
+          <span class="detail-value">{{ employee.address }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Status</span>
+          <span class="detail-value">
+            <span class="badge" [ngClass]="employee.status === 'Active' ? 'bg-success' : 'bg-secondary'">
+              {{ employee.status }}
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="detail-card full-width" *ngIf="employee.description">
+        <div class="detail-card-title"><i class="bi bi-chat-left-text-fill me-2 text-warning"></i>Notes / Description</div>
+        <p class="detail-notes">{{ employee.description }}</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -1,22 +1,14 @@
 import { Component } from '@angular/core';
-import { SidebarComponent } from "../../sidebar/sidebar.component";
-import { NavbarComponent } from "../../navbar/navbar.component";
+import { SidebarComponent } from '../../sidebar/sidebar.component';
+import { NavbarComponent } from '../../navbar/navbar.component';
 import { RouterOutlet } from '@angular/router';
+import { ToastComponent } from '../../shared/toast/toast.component';
+import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
 
-
-// full-layout.component.ts
 @Component({
   standalone: true,
   selector: 'app-full-layout',
-  template: `
-    <app-navbar></app-navbar>
-    <div class="d-flex">
-      <app-sidebar></app-sidebar>
-      <div class="flex-grow-1 p-3">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  `,
-  imports: [RouterOutlet, SidebarComponent, NavbarComponent]
+  templateUrl: './full-layout.component.html',
+  imports: [RouterOutlet, SidebarComponent, NavbarComponent, ToastComponent, BreadcrumbComponent]
 })
 export class FullLayoutComponent {}
