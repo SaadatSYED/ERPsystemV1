@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AppBtnComponent } from '../shared/app-btn/app-btn.component';
 import { TaskService } from '../services/task.service';
 import { Chart, registerables } from 'chart.js';
 
@@ -9,7 +10,7 @@ Chart.register(...registerables);
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AppBtnComponent],
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css']
 })

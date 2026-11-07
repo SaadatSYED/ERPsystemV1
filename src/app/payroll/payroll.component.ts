@@ -1,5 +1,6 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { AppBtnComponent } from '../shared/app-btn/app-btn.component';
 
 interface PayrollRecord {
   id: number;
@@ -15,7 +16,7 @@ interface PayrollRecord {
 @Component({
   selector: 'app-payroll',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AppBtnComponent],
   templateUrl: './payroll.component.html',
   styleUrls: ['./payroll.component.css']
 })

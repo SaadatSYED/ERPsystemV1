@@ -1,96 +1,90 @@
-<div class="dashboard">
+<!-- Loading -->
+@if (loading) {
+  <div class="d-flex justify-content-center align-items-center" style="min-height:300px">
+    <div class="text-center">
+      <div class="spinner-border text-primary mb-3"></div>
+      <p class="text-muted">Loading dashboard...</p>
+    </div>
+  </div>
+}
 
+@if (!loading) {
   <!-- KPI Cards -->
-  <div class="kpi-row">
-    <div class="kpi-card kpi-blue">
-      <div class="kpi-icon"><i class="bi bi-people-fill"></i></div>
-      <div class="kpi-info">
-        <div class="kpi-value">{{ loading ? '...' : totalEmployees }}</div>
-        <div class="kpi-label">Total Employees</div>
+  <div class="kpi-grid">
+    @for (k of kpis; track k.key) {
+      <div class="kpi-card">
+        <div class="kpi-icon" [style.background]="k.bg">
+          <i class="bi {{ k.icon }}" [style.color]="k.color"></i>
+        </div>
+        <div class="kpi-info">
+          <div class="kpi-value">
+            @if (k.key === 'total')       { {{ total }} }
+            @if (k.key === 'active')      { {{ active }} }
+            @if (k.key === 'inactive')    { {{ inactive }} }
+            @if (k.key === 'newThisMonth'){ {{ newThisMonth }} }
+          </div>
+          <div class="kpi-label">{{ k.label }}</div>
+        </div>
       </div>
-    </div>
-    <div class="kpi-card kpi-green">
-      <div class="kpi-icon"><i class="bi bi-person-check-fill"></i></div>
-      <div class="kpi-info">
-        <div class="kpi-value">{{ loading ? '...' : activeEmployees }}</div>
-        <div class="kpi-label">Active</div>
-      </div>
-    </div>
-    <div class="kpi-card kpi-red">
-      <div class="kpi-icon"><i class="bi bi-person-x-fill"></i></div>
-      <div class="kpi-info">
-        <div class="kpi-value">{{ loading ? '...' : inactiveEmployees }}</div>
-        <div class="kpi-label">Inactive</div>
-      </div>
-    </div>
-    <div class="kpi-card kpi-orange">
-      <div class="kpi-icon"><i class="bi bi-calendar-plus"></i></div>
-      <div class="kpi-info">
-        <div class="kpi-value">3</div>
-        <div class="kpi-label">New This Month</div>
-      </div>
-    </div>
+    }
   </div>
 
   <!-- Charts Row -->
-  <div class="charts-row">
+  <div class="charts-grid">
     <div class="chart-card">
-      <h6 class="chart-title">Employee Status</h6>
-      <canvas #doughnutCanvas></canvas>
-    </div>
-    <div class="chart-card">
-      <h6 class="chart-title">By Designation (Top 5)</h6>
-      <canvas #barCanvas></canvas>
-    </div>
-  </div>
-
-  <!-- Quick Actions + Recent Employees -->
-  <div class="bottom-row">
-    <div class="quick-actions">
-      <h6 class="section-title">Quick Actions</h6>
-      <div class="action-btns">
-        <a routerLink="/task-form" class="btn btn-primary btn-sm">
-          <i class="bi bi-plus-circle me-1"></i> Add Employee
-        </a>
-        <a routerLink="/tasks" class="btn btn-outline-primary btn-sm">
-          <i class="bi bi-people me-1"></i> View All
-        </a>
-        <a routerLink="/reports" class="btn btn-outline-secondary btn-sm">
-          <i class="bi bi-bar-chart me-1"></i> Reports
-        </a>
-        <a routerLink="/attendance" class="btn btn-outline-success btn-sm">
-          <i class="bi bi-calendar-check me-1"></i> Attendance
-        </a>
+      <div class="chart-card-header">
+        <span class="chart-card-title">Status Overview</span>
+        <span class="chart-badge">{{ total }} total</span>
+      </div>
+      <div class="chart-body">
+        <canvas #doughnutCanvas></canvas>
       </div>
     </div>
 
-    <div class="recent-card">
-      <h6 class="section-title">Recent Employees</h6>
-      <div *ngIf="loading" class="text-center py-3 text-muted">Loading...</div>
-      <table *ngIf="!loading" class="table table-sm mb-0">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Designation</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let emp of recentEmployees">
-            <td>{{ emp.firstName }} {{ emp.lastName }}</td>
-            <td>{{ emp.designation }}</td>
-            <td>
-              <span class="badge" [class.bg-success]="emp.status === 'Active'" [class.bg-secondary]="emp.status !== 'Active'">
-                {{ emp.status }}
-              </span>
-            </td>
-          </tr>
-          <tr *ngIf="recentEmployees.length === 0">
-            <td colspan="3" class="text-center text-muted">No employees yet</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="chart-card chart-card-wide">
+      <div class="chart-card-header">
+        <span class="chart-card-title">Employees by Designation</span>
+      </div>
+      <div class="chart-body">
+        <canvas #barCanvas></canvas>
+      </div>
     </div>
   </div>
 
-</div>
+  <!-- Recent Employees -->
+  <div class="section-card">
+    <div class="section-header">
+      <span class="section-title"><i class="bi bi-clock-history me-2 text-primary"></i>Recent Employees</span>
+      <app-btn label="View All" icon="people" variant="outline-primary" size="sm" [routerLink]="['/tasks']"></app-btn>
+    </div>
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Emp No</th>
+          <th>Name</th>
+          <th>Designation</th>
+          <th>Email</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (e of recent; track e.id) {
+          <tr style="cursor:pointer" [routerLink]="['/employee', e.id]">
+            <td class="text-muted">{{ e.employeeNumber }}</td>
+            <td class="fw-semibold">{{ e.firstName }} {{ e.lastName }}</td>
+            <td>{{ e.designation }}</td>
+            <td class="text-muted">{{ e.email }}</td>
+            <td>
+              <span class="badge" [ngClass]="e.status === 'Active' ? 'bg-success' : 'bg-secondary'">
+                {{ e.status }}
+              </span>
+            </td>
+          </tr>
+        }
+        @if (recent.length === 0) {
+          <tr><td colspan="5" class="text-center text-muted py-4">No employees found</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

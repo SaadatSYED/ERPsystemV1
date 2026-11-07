@@ -1,127 +1,103 @@
-
-<!-- Top Header -->
-<div class="card shadow-sm px-4 py-3" style="margin-top: 0;">
-  <div class="d-flex justify-content-between align-items-center">
-    <h4 class="mb-0">Employees</h4>
-  
-    <div class="d-flex align-items-center gap-2">
-      <!-- 🌙 Dark/Light Mode Button
-      <button class="btn btn-secondary btn-sm" (click)="toggleTheme()">
-        <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
-        {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
-      </button> -->
-
-      <!-- Add Task -->
-      <button class="btn btn-primary btn-sm" (click)="addTask()">
-        <i class="bi bi-plus-circle me-1"></i> + Add New
-      </button>
-    </div>
+<!-- Header -->
+<div class="page-top-bar">
+  <div>
+    <p class="page-top-sub">Manage and view all employees</p>
   </div>
+  <app-btn label="Add Employee" icon="person-plus-fill" variant="primary" size="sm" (onClick)="addTask()"></app-btn>
 </div>
 
-<!-- Search, Refresh, Export -->
-<div class="card shadow-sm rounded p-3 mt-3">
-  <div class="d-flex justify-content-end align-items-center gap-2 mb-3">
-    <button class="btn btn-outline-primary btn-sm" (click)="refreshTasks()">
-      <i class="bi bi-arrow-clockwise me-1"></i> Refresh
-    </button>
-
-    <input type="text"
-           [(ngModel)]="searchKeyword"
-           (input)="onSearch()"
-           placeholder="Search keyword..."
-           class="form-control form-control-sm"
-           style="width: 200px;" />
-
-    <button class="btn btn-success btn-sm" (click)="exportTasks()">
-      <i class="bi bi-download me-1"></i> Export
-    </button>
+<!-- Table Card -->
+<div class="table-card">
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="d-flex align-items-center gap-2">
+      <div class="search-wrap">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" [(ngModel)]="searchKeyword" (input)="onSearch()"
+               placeholder="Search employees..." class="search-input" />
+      </div>
+      <app-btn label="Refresh" icon="arrow-clockwise" variant="outline-secondary" size="sm" (onClick)="refreshTasks()"></app-btn>
+    </div>
+    <app-btn label="Export CSV" icon="download" variant="success" size="sm" (onClick)="exportTasks()"></app-btn>
   </div>
 
-  <!-- 📋 Table -->
-  <table class="table custom-table">
-    <thead class="custom-table-head">
-      <tr>
-        <th><input type="checkbox" [(ngModel)]="selectAll" (change)="onSelectAllChange()" /></th>
-        <th>Employee No</th>
-        <th>First Name</th>
-        <th>Email</th>
-        <th>Address</th>
-        <th>Status</th>
-        <th class="text-center">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let task of filteredTasks(); let i = index">
-        <td><input type="checkbox" [(ngModel)]="task.selected" (change)="onTaskSelectChange()" /></td>
-        <td>{{ task.employeeNumber }}</td>
-        <td><a [routerLink]="['/employee', task.id]" class="employee-link">{{ task.firstName }}</a></td>
-        <td>{{ task.email }}</td>
-        <td>{{ task.address }}</td>
-        <td>
-          <span class="badge"
-                [ngClass]="{
-                  'bg-success': task.status === 'Active',
-                  'bg-secondary': task.status === 'Inactive'
-                }">
-            {{ task.status }}
-          </span>
-        </td>
-        <td class="text-center">
-          <div class="d-flex justify-content-center gap-0">
-            <button class="icon-btn" (click)="viewTask(task.id)">👁️</button>
-            <button class="icon-btn" (click)="editTask(task.id)">✏️</button>
-            <button class="icon-btn" (click)="deleteTask(task.id)">
-              <i class="bi bi-trash3-fill text-danger"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- No data -->
-  <div *ngIf="filteredTaskList.length === 0" class="text-center text-muted py-3">
-    No tasks found.
+  <!-- Table -->
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th style="width:36px"><input type="checkbox" [(ngModel)]="selectAll" (change)="onSelectAllChange()" /></th>
+          <th>Emp No</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Status</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (task of filteredTasks(); track task.id) {
+          <tr>
+            <td><input type="checkbox" [(ngModel)]="task.selected" (change)="onTaskSelectChange()" /></td>
+            <td class="text-muted fw-medium">{{ task.employeeNumber }}</td>
+            <td>
+              <a [routerLink]="['/employee', task.id]" class="employee-link">{{ task.firstName }}</a>
+            </td>
+            <td class="text-muted">{{ task.email }}</td>
+            <td class="text-muted">{{ task.address }}</td>
+            <td>
+              <span class="badge rounded-pill"
+                    [ngClass]="task.status === 'Active' ? 'bg-success' : 'bg-secondary'">
+                {{ task.status }}
+              </span>
+            </td>
+            <td class="text-center">
+              <div class="d-flex justify-content-center gap-1">
+                <button class="action-btn view" (click)="viewTask(task.id)" title="View">
+                  <i class="bi bi-eye"></i>
+                </button>
+                <button class="action-btn edit" (click)="editTask(task.id)" title="Edit">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="action-btn del" (click)="deleteTask(task.id)" title="Delete">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+        @if (filteredTaskList.length === 0) {
+          <tr><td colspan="7" class="text-center text-muted py-4">No employees found.</td></tr>
+        }
+      </tbody>
+    </table>
   </div>
 
   <!-- Pagination -->
-  <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
-    <!-- Left: Showing entries info -->
-    <div class="text-muted mb-2 mb-md-0">
-      Showing {{ first + 1 }} to {{ Math.min(first + rows, filteredTaskList.length) }} of {{ filteredTaskList.length }} Entries
-    </div>
-    
-    <!-- Right: Pagination controls -->
+  <div class="pagination-bar">
+    <span class="text-muted" style="font-size:13px">
+      Showing {{ first + 1 }}–{{ Math.min(first + rows, filteredTaskList.length) }} of {{ filteredTaskList.length }}
+    </span>
     <div class="d-flex align-items-center gap-2">
-      <!-- Entries per page dropdown -->
-      <div class="d-flex align-items-center">
-        <span class="text-muted me-2">Show</span>
-        <select class="form-select form-select-sm" style="width: 70px; min-width: 60px;" [(ngModel)]="rows" (change)="onRowsChange()">
-          <option [value]="3">3</option>
-          <option [value]="10">10</option>
-          <option [value]="25">25</option>
-          <option [value]="50">50</option>
-        </select>
-        <span class="text-muted ms-2">entries</span>
-      </div>
-      
-      <!-- Navigation buttons -->
-      <ul class="pagination pagination-sm mb-0 ms-2">
-        <li class="page-item" [class.disabled]="first === 0">
-          <button class="page-link" (click)="goToFirstPage()" [disabled]="first === 0">&laquo;</button>
+      <select class="form-select form-select-sm" style="width:70px" [(ngModel)]="rows" (change)="onRowsChange()">
+        <option [value]="3">3</option><option [value]="10">10</option>
+        <option [value]="25">25</option><option [value]="50">50</option>
+      </select>
+      <ul class="pagination pagination-sm mb-0">
+        <li class="page-item" [class.disabled]="first===0">
+          <button class="page-link" (click)="goToFirstPage()">&laquo;</button>
         </li>
-        <li class="page-item" [class.disabled]="first === 0">
-          <button class="page-link" (click)="goToPreviousPage()" [disabled]="first === 0">&lt;</button>
+        <li class="page-item" [class.disabled]="first===0">
+          <button class="page-link" (click)="goToPreviousPage()">&lsaquo;</button>
         </li>
         <li class="page-item active">
           <span class="page-link">{{ Math.floor(first / rows) + 1 }}</span>
         </li>
-        <li class="page-item" [class.disabled]="first + rows >= filteredTaskList.length">
-          <button class="page-link" (click)="goToNextPage()" [disabled]="first + rows >= filteredTaskList.length">&gt;</button>
+        <li class="page-item" [class.disabled]="first+rows>=filteredTaskList.length">
+          <button class="page-link" (click)="goToNextPage()">&rsaquo;</button>
         </li>
-        <li class="page-item" [class.disabled]="first + rows >= filteredTaskList.length">
-          <button class="page-link" (click)="goToLastPage()" [disabled]="first + rows >= filteredTaskList.length">&raquo;</button>
+        <li class="page-item" [class.disabled]="first+rows>=filteredTaskList.length">
+          <button class="page-link" (click)="goToLastPage()">&raquo;</button>
         </li>
       </ul>
     </div>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AppBtnComponent } from '../shared/app-btn/app-btn.component';
 
 interface LeaveRequest {
   id: number;
@@ -16,7 +17,7 @@ interface LeaveRequest {
 @Component({
   selector: 'app-leave',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AppBtnComponent],
   templateUrl: './leave.component.html',
   styleUrls: ['./leave.component.css']
 })

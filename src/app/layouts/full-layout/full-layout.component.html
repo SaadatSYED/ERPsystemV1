@@ -1,11 +1,12 @@
-<app-navbar></app-navbar>
-<app-toast></app-toast>
-
-<div class="d-flex">
+<div class="erp-shell">
   <app-sidebar></app-sidebar>
 
-  <main class="flex-grow-1 p-3">
-    <app-breadcrumb></app-breadcrumb>
-    <router-outlet></router-outlet>
-  </main>
+  <div class="erp-body">
+    <app-navbar></app-navbar>
+    <app-toast></app-toast>
+
+    <main class="erp-main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AppBtnComponent } from '../../shared/app-btn/app-btn.component';
 import { RouterModule } from '@angular/router';
 import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-employee-profile',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, AppBtnComponent],
   templateUrl: './employee-profile.component.html',
   styleUrls: ['./employee-profile.component.css']
 })

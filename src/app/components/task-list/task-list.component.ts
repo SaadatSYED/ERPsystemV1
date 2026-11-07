@@ -4,14 +4,14 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
 import { ToastService } from '../../services/toast.service';
-import { PaginatorModule } from 'primeng/paginator';
+import { AppBtnComponent } from '../../shared/app-btn/app-btn.component';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
-  imports: [CommonModule, FormsModule, RouterModule, PaginatorModule],
+  imports: [CommonModule, FormsModule, RouterModule, AppBtnComponent],
 })
 export class TaskListComponent implements OnInit {
   tasks: any[] = [];
