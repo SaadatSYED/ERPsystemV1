@@ -1,37 +1,71 @@
 <header class="erp-topbar">
 
-  <!-- Left: Page title -->
+  <!-- Left: Title + Date -->
   <div class="topbar-left">
     <h1 class="topbar-title">{{ pageTitle }}</h1>
+    <span class="topbar-date"><i class="bi bi-calendar3 me-1"></i>{{ today }}</span>
   </div>
 
-  <!-- Right: actions -->
+  <!-- Center: Search -->
+  <div class="topbar-search-wrap">
+    <i class="bi bi-search topbar-search-icon"></i>
+    <input type="text" class="topbar-search-input" placeholder="Search employees, payroll, reports..." />
+    <span class="topbar-search-kbd">Ctrl K</span>
+  </div>
+
+  <!-- Right: Actions -->
   <div class="topbar-right">
 
     <!-- Notifications -->
-    <button class="topbar-icon-btn" title="Notifications">
-      <i class="bi bi-bell"></i>
-      <span class="notif-dot"></span>
-    </button>
+    <div class="topbar-dropdown-wrap" (click)="$event.stopPropagation()">
+      <button class="topbar-icon-btn" (click)="toggleNotifs()" title="Notifications">
+        <i class="bi bi-bell-fill"></i>
+        <span class="notif-badge">{{ notifications.length }}</span>
+      </button>
+
+      @if (showNotifs) {
+        <div class="notif-panel">
+          <div class="notif-header">
+            <span class="notif-title">Notifications</span>
+            <span class="notif-count">{{ notifications.length }} new</span>
+          </div>
+          @for (n of notifications; track n.text) {
+            <div class="notif-item">
+              <div class="notif-icon-wrap" [style.background]="n.color + '1a'">
+                <i class="bi {{ n.icon }}" [style.color]="n.color"></i>
+              </div>
+              <div class="notif-body">
+                <p class="notif-text">{{ n.text }}</p>
+                <span class="notif-time">{{ n.time }}</span>
+              </div>
+            </div>
+          }
+          <div class="notif-footer">View all notifications</div>
+        </div>
+      }
+    </div>
 
     <!-- Theme toggle -->
-    <button class="topbar-icon-btn" (click)="toggleTheme()" [title]="isDarkMode ? 'Switch to Light' : 'Switch to Dark'">
+    <button class="topbar-icon-btn" (click)="toggleTheme()" [title]="isDarkMode ? 'Light Mode' : 'Dark Mode'">
       <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
     </button>
 
-    <!-- User dropdown -->
-    <div class="user-menu-wrap" (click)="$event.stopPropagation()">
+    <!-- User Menu -->
+    <div class="topbar-dropdown-wrap" (click)="$event.stopPropagation()">
       <button class="user-trigger" (click)="toggleDropdown()">
-        <img src="assets/images/saadat.png" alt="User" class="user-avatar"
+        <img src="assets/images/saadat.png" class="user-avatar" alt="User"
              onerror="this.src='https://www.w3schools.com/howto/img_avatar.png'" />
-        <span class="user-name">Saadat</span>
+        <div class="user-info">
+          <span class="user-name">Saadat</span>
+          <span class="user-role">Admin</span>
+        </div>
         <i class="bi bi-chevron-down chev"></i>
       </button>
 
       @if (showDropdown) {
         <div class="user-dropdown">
           <div class="dd-header">
-            <img src="assets/images/saadat.png" alt="User" class="dd-avatar"
+            <img src="assets/images/saadat.png" class="dd-avatar" alt="User"
                  onerror="this.src='https://www.w3schools.com/howto/img_avatar.png'" />
             <div>
               <div class="dd-name">Saadat Ahmed</div>
@@ -39,10 +73,10 @@
             </div>
           </div>
           <div class="dd-divider"></div>
-          <a class="dd-item" routerLink="/setting" (click)="closeDropdown()">
+          <a class="dd-item" routerLink="/setting" (click)="closeAll()">
             <i class="bi bi-gear-fill"></i> Settings
           </a>
-          <button class="dd-item" (click)="toggleTheme(); closeDropdown()">
+          <button class="dd-item" (click)="toggleTheme(); closeAll()">
             <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
             {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
           </button>

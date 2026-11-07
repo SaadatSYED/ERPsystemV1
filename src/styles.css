@@ -6,6 +6,32 @@ html, body {
   overflow: hidden;
 }
 
+/* ===== GLOBAL ERP PAGE HEADER — use on every page ===== */
+.erp-page-header {
+  background: var(--card-bg, #fff);
+  border-radius: 12px;
+  padding: 16px 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.erp-page-header-left   { display: flex; flex-direction: column; }
+.erp-page-header-title  { font-size: 15px; font-weight: 700; margin: 0; color: var(--text-primary,#0f172a); }
+.erp-page-header-sub    { font-size: 12px; color: var(--text-secondary,#64748b); margin: 2px 0 0; }
+.erp-page-header-right  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* ===== GLOBAL ERP CARD ===== */
+.erp-card {
+  background: var(--card-bg,#fff);
+  border-radius: 12px; padding: 20px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+/* ===================================================== */
+
 /* 🌙 Dark Mode Global Styles */
 .dark-mode {
   --bg-primary: #1a1a1a;

@@ -1,12 +1,11 @@
-<div class="attendance-page">
-
-  <!-- Header -->
-  <div class="page-header-card">
-    <div>
-      <h5 class="page-title"><i class="bi bi-calendar-check me-2 text-primary"></i>Attendance</h5>
-      <p class="page-subtitle">{{ monthName }}</p>
+<div>
+  <!-- Page Header -->
+  <div class="erp-page-header">
+    <div class="erp-page-header-left">
+      <h5 class="erp-page-header-title"><i class="bi bi-calendar-check me-2 text-primary"></i>Attendance</h5>
+      <span class="erp-page-header-sub">{{ monthName }}</span>
     </div>
-    <div class="legend">
+    <div class="erp-page-header-right">
       <span class="legend-item present">P Present</span>
       <span class="legend-item absent">A Absent</span>
       <span class="legend-item half">H Half-Day</span>
@@ -16,38 +15,39 @@
   </div>
 
   <!-- Attendance Table -->
-  <div class="attendance-table-wrap">
+  <div class="erp-card" style="overflow-x:auto; padding:0">
     <table class="attendance-table">
       <thead>
         <tr>
           <th class="emp-col">Employee</th>
-          <th *ngFor="let cell of calendarDays"
-              [class.weekend-col]="cell.weekday >= 5"
-              [class.empty-col]="cell.day === null">
-            <span *ngIf="cell.day !== null">{{ cell.day }}</span>
-          </th>
-          <th class="summary-col">Present</th>
-          <th class="summary-col">Absent</th>
-          <th class="summary-col">Half</th>
+          @for (cell of calendarDays; track $index) {
+            <th [class.weekend-col]="cell.weekday >= 5" [class.empty-col]="cell.day === null">
+              <span>{{ cell.day !== null ? cell.day : '' }}</span>
+            </th>
+          }
+          <th class="summary-col">P</th>
+          <th class="summary-col">A</th>
+          <th class="summary-col">H</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let emp of employees">
-          <td class="emp-name-cell">
-            <div class="emp-name">{{ emp.name }}</div>
-            <div class="emp-desig">{{ emp.designation }}</div>
-          </td>
-          <td *ngFor="let cell of calendarDays"
-              [class]="'cell-' + getStatus(emp.id, cell.day)"
-              [title]="getStatus(emp.id, cell.day)">
-            <span>{{ statusLabel(getStatus(emp.id, cell.day)) }}</span>
-          </td>
-          <td class="summary-cell text-success">{{ getSummary(emp.id).present }}</td>
-          <td class="summary-cell text-danger">{{ getSummary(emp.id).absent }}</td>
-          <td class="summary-cell text-warning">{{ getSummary(emp.id).half }}</td>
-        </tr>
+        @for (emp of employees; track emp.id) {
+          <tr>
+            <td class="emp-name-cell">
+              <div class="emp-name">{{ emp.name }}</div>
+              <div class="emp-desig">{{ emp.designation }}</div>
+            </td>
+            @for (cell of calendarDays; track $index) {
+              <td [class]="'cell-' + getStatus(emp.id, cell.day)" [title]="getStatus(emp.id, cell.day)">
+                {{ statusLabel(getStatus(emp.id, cell.day)) }}
+              </td>
+            }
+            <td class="summary-cell text-success fw-bold">{{ getSummary(emp.id).present }}</td>
+            <td class="summary-cell text-danger fw-bold">{{ getSummary(emp.id).absent }}</td>
+            <td class="summary-cell text-warning fw-bold">{{ getSummary(emp.id).half }}</td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>
-
 </div>

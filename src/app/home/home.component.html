@@ -1,3 +1,14 @@
+<!-- Page Header -->
+<div class="erp-page-header">
+  <div class="erp-page-header-left">
+    <h5 class="erp-page-header-title"><i class="bi bi-speedometer2 me-2 text-primary"></i>Dashboard</h5>
+    <span class="erp-page-header-sub">Welcome back, Saadat! Here's what's happening today.</span>
+  </div>
+  <div class="erp-page-header-right">
+    <app-btn label="Add Employee" icon="person-plus-fill" variant="primary" size="sm" [routerLink]="['/task-form']"></app-btn>
+  </div>
+</div>
+
 <!-- Loading -->
 @if (loading) {
   <div class="d-flex justify-content-center align-items-center" style="min-height:300px">
@@ -49,6 +60,34 @@
         <canvas #barCanvas></canvas>
       </div>
     </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions-grid">
+    <a [routerLink]="['/task-form']" class="qa-card">
+      <div class="qa-icon" style="background:#eff6ff"><i class="bi bi-person-plus-fill" style="color:#3b82f6"></i></div>
+      <span class="qa-label">Add Employee</span>
+    </a>
+    <a [routerLink]="['/attendance']" class="qa-card">
+      <div class="qa-icon" style="background:#ecfdf5"><i class="bi bi-calendar-check-fill" style="color:#10b981"></i></div>
+      <span class="qa-label">Attendance</span>
+    </a>
+    <a [routerLink]="['/leave']" class="qa-card">
+      <div class="qa-icon" style="background:#fffbeb"><i class="bi bi-calendar-x-fill" style="color:#f59e0b"></i></div>
+      <span class="qa-label">Leave Request</span>
+    </a>
+    <a [routerLink]="['/payroll']" class="qa-card">
+      <div class="qa-icon" style="background:#ecfdf5"><i class="bi bi-cash-stack" style="color:#10b981"></i></div>
+      <span class="qa-label">Payroll</span>
+    </a>
+    <a [routerLink]="['/reports']" class="qa-card">
+      <div class="qa-icon" style="background:#fdf4ff"><i class="bi bi-bar-chart-fill" style="color:#a855f7"></i></div>
+      <span class="qa-label">Reports</span>
+    </a>
+    <a [routerLink]="['/setting']" class="qa-card">
+      <div class="qa-icon" style="background:#f8fafc"><i class="bi bi-gear-fill" style="color:#64748b"></i></div>
+      <span class="qa-label">Settings</span>
+    </a>
   </div>
 
   <!-- Recent Employees -->

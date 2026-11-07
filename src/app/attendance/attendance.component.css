@@ -1,41 +1,29 @@
-.attendance-page { padding: 4px 0; }
-
-.page-header-card {
-  background: var(--card-bg, #fff); border-radius: 12px; padding: 20px 24px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin-bottom: 20px;
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
-}
-.page-title { font-size: 16px; font-weight: 700; margin: 0; }
-.page-subtitle { font-size: 13px; color: #6b7280; margin: 2px 0 0; }
-
-.legend { display: flex; gap: 10px; flex-wrap: wrap; }
 .legend-item { font-size: 12px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
-.legend-item.present  { background: #d1fae5; color: #065f46; }
-.legend-item.absent   { background: #fee2e2; color: #991b1b; }
-.legend-item.half     { background: #fef3c7; color: #92400e; }
-.legend-item.holiday  { background: #dbeafe; color: #1e40af; }
-.legend-item.weekend  { background: #f3f4f6; color: #6b7280; }
+.legend-item.present  { background:#d1fae5; color:#065f46; }
+.legend-item.absent   { background:#fee2e2; color:#991b1b; }
+.legend-item.half     { background:#fef3c7; color:#92400e; }
+.legend-item.holiday  { background:#dbeafe; color:#1e40af; }
+.legend-item.weekend  { background:#f3f4f6; color:#6b7280; }
 
-.attendance-table-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
-.attendance-table { border-collapse: collapse; min-width: 100%; background: var(--card-bg, #fff); }
+.attendance-table { border-collapse:collapse; min-width:100%; background:var(--card-bg,#fff); }
 .attendance-table th, .attendance-table td {
-  border: 1px solid #e5e7eb; text-align: center; padding: 6px 4px; font-size: 11px; min-width: 28px;
+  border:1px solid #e5e7eb; text-align:center;
+  padding:5px 3px; font-size:11px; min-width:26px;
 }
-.attendance-table thead tr { background: #f9fafb; }
-.attendance-table th { font-weight: 600; color: #374151; }
+.attendance-table thead tr { background:#f9fafb; }
+.attendance-table th { font-weight:600; color:#374151; }
 
-.emp-col { min-width: 160px; text-align: left !important; padding-left: 12px !important; }
-.emp-name-cell { text-align: left; padding: 8px 12px !important; }
-.emp-name { font-weight: 600; font-size: 13px; }
-.emp-desig { font-size: 11px; color: #9ca3af; }
-.summary-col { background: #f9fafb; font-weight: 600; min-width: 50px; }
-.summary-cell { font-weight: 700; font-size: 13px; }
-.weekend-col { background: #f9fafb; }
-.empty-col { background: #f9fafb; }
-
-.cell-present  { background: #d1fae5; color: #065f46; font-weight: 700; }
-.cell-absent   { background: #fee2e2; color: #991b1b; font-weight: 700; }
-.cell-half-day { background: #fef3c7; color: #92400e; font-weight: 700; }
-.cell-holiday  { background: #dbeafe; color: #1e40af; }
-.cell-weekend  { background: #f3f4f6; color: #9ca3af; }
-.cell-         { background: transparent; }
+.emp-col { min-width:160px; text-align:left !important; padding-left:12px !important; }
+.emp-name-cell { text-align:left; padding:8px 12px !important; }
+.emp-name { font-weight:600; font-size:13px; }
+.emp-desig { font-size:11px; color:#9ca3af; }
+.summary-col { background:#f9fafb; min-width:36px; font-weight:700; }
+.summary-cell { font-size:13px; }
+.weekend-col { background:#f9fafb; }
+.empty-col { background:#f9fafb; }
+.cell-present  { background:#d1fae5; color:#065f46; font-weight:700; }
+.cell-absent   { background:#fee2e2; color:#991b1b; font-weight:700; }
+.cell-half-day { background:#fef3c7; color:#92400e; font-weight:700; }
+.cell-holiday  { background:#dbeafe; color:#1e40af; }
+.cell-weekend  { background:#f3f4f6; color:#9ca3af; }
+.cell-         { background:transparent; }
